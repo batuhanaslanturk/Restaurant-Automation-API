@@ -10,9 +10,9 @@ Modern bir yazılım mimarisi ile geliştirilmiş bu sistem, microservice mimari
 
     Entity Framework Core
 
-    SignalR (Gerçek zamanlı bildirimler)
+    SignalR
 
-    RabbitMQ (Mesajlaşma altyapısı)
+    RabbitMQ
 
     Microservice Architecture
 
