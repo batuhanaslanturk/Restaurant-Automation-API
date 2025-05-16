@@ -11,6 +11,7 @@ namespace Infrastructure.Common
     {
         private readonly ApplicationDbContext _context;
         private ICategoryRepository _categoryRepository;
+        private IProductRepository _productRepository;
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -18,6 +19,7 @@ namespace Infrastructure.Common
         }
 
         public ICategoryRepository CategoryRepository => _categoryRepository ??= new CategoryRepository(_context);
+        public IProductRepository ProductRepository => _productRepository ??= new ProductRepository(_context);
 
         public async Task<int> CommitAsync()
         {
@@ -42,6 +44,10 @@ namespace Infrastructure.Common
             if (typeof(TEntity) == typeof(Category))
             {
                 return (IBaseRepository<TEntity>)CategoryRepository;
+            }
+            else if (typeof(TEntity) == typeof(Product))
+            {
+                return (IBaseRepository<TEntity>)ProductRepository;
             }
             else
             {

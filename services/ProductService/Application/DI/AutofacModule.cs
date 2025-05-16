@@ -25,9 +25,17 @@ namespace Application.DI
                    .As<ICategoryService>()
                    .InstancePerLifetimeScope();
 
+            builder.RegisterType<ProductService>()
+                   .As<IProductService>()
+                   .InstancePerLifetimeScope();
+
             // Repository injection
             builder.RegisterType<CategoryRepository>()
                    .As<ICategoryRepository>()
+                   .InstancePerLifetimeScope();
+
+            builder.RegisterType<ProductRepository>()
+                   .As<IProductRepository>()
                    .InstancePerLifetimeScope();
 
             builder.RegisterType<UnitOfWork>()

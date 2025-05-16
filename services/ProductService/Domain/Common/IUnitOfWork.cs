@@ -6,5 +6,6 @@ namespace Domain.Common
     public interface IUnitOfWork : IBaseUnitOfWork
     {
         ICategoryRepository CategoryRepository { get; }
+        IProductRepository ProductRepository { get; }
     }
 }
