@@ -14,10 +14,9 @@ namespace Infrastructure.Common
             _context = context;
             _dbSet = _context.Set<T>();
         }
-        public virtual async Task<T> GetByIdAsync(Guid id) => await _dbSet.FindAsync(id);
+        public virtual async Task<T> GetByIdAsync(Guid id) => await BaseGetByIdAsync(id);
 
-        public virtual async Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>>? predicate = null) =>
-            predicate == null ? await _dbSet.ToListAsync() : await _dbSet.Where(predicate).ToListAsync();
+        public virtual async Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>>? predicate = null) => await BaseGetListAsync(predicate);
 
         public virtual async Task AddAsync(T entity)
         {
@@ -36,6 +35,36 @@ namespace Infrastructure.Common
             {
                 _dbSet.Remove(entity);
             }
+        }
+        protected async Task<IEnumerable<T>> BaseGetListAsync(Expression<Func<T, bool>>? predicate = null, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _dbSet.AsNoTracking();
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.ToListAsync();
+        }
+
+
+        protected async Task<T> BaseGetByIdAsync(Guid id, params Expression<Func<T, object>>[] includes)
+        {
+
+            IQueryable<T> query = _dbSet.AsNoTracking();
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }
