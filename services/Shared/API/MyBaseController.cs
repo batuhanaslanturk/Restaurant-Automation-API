@@ -3,7 +3,7 @@ using Restaurant.Shared.Domain;
 
 namespace Restaurant.Shared.API
 {
-    [Route("api/[controller]")]
+    [Route("productApi/[controller]")]
     [ApiController]
     public class MyBaseController<T, TCommand, TDto> : ControllerBase where T : BaseEntity where TCommand : class where TDto : class
     {
