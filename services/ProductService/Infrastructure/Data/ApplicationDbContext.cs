@@ -21,6 +21,10 @@ namespace Infrastructure.Data
             if (!optionsBuilder.IsConfigured)
             {
                 var connectionString = _configuration.GetConnectionString("DefaultConnection");
+                if (connectionString == null || connectionString.Length == 0 || string.IsNullOrEmpty(connectionString))
+                {
+                    throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+                }
                 optionsBuilder.UseSqlServer(connectionString);
             }
         }
