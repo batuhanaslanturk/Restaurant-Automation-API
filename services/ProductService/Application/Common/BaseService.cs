@@ -17,26 +17,26 @@ namespace Application.Common
             _unitOfWork = unitOfWork;
             this._mapper = mapper;
         }
-        public Task AddAsync<TSource>(TSource source)
+        public async Task AddAsync<TSource>(TSource source)
         {
             var entity = _mapper.Map<T>(source);
-            _repo.AddAsync(entity);
-            return _unitOfWork.CommitAsync();
+            await _repo.AddAsync(entity);
+            await _unitOfWork.CommitAsync();
         }
 
-        public Task UpdateAsync<TSource>(Guid id, TSource source)
+        public async Task UpdateAsync<TSource>(Guid id, TSource source)
         {
             var entity = _mapper.Map<T>(source);
             entity.Id = id;
             entity.SetUpdated();
-            _repo.UpdateAsync(entity);
-            return _unitOfWork.CommitAsync();
+            await _repo.UpdateAsync(entity);
+            await _unitOfWork.CommitAsync();
         }
 
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            _repo.DeleteAsync(id);
-            return _unitOfWork.CommitAsync();
+            await _repo.DeleteAsync(id);
+            await _unitOfWork.CommitAsync();
         }
         public Task<T> GetByIdAsync(Guid id)
         {
